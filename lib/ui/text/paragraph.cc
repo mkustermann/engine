@@ -110,14 +110,13 @@ tonic::Float32List Paragraph::getRectsForPlaceholders() {
   return EncodeTextBoxes(boxes);
 }
 
-Dart_Handle Paragraph::getPositionForOffset(double dx, double dy) {
+tonic::Int32List Paragraph::getPositionForOffset(double dx, double dy) {
   txt::Paragraph::PositionWithAffinity pos =
       m_paragraph_->GetGlyphPositionAtCoordinate(dx, dy);
-  std::vector<size_t> result = {
-      pos.position,                      // size_t already
-      static_cast<size_t>(pos.affinity)  // affinity (enum)
-  };
-  return tonic::DartConverter<decltype(result)>::ToDart(result);
+  tonic::Int32List result = Dart_NewTypedData(Dart_TypedData_kInt32, 2);
+  result[0] = pos.position;
+  result[1] = pos.affinity;
+  return result;
 }
 
 Dart_Handle glyphInfoFrom(
@@ -165,8 +164,10 @@ Dart_Handle Paragraph::getClosestGlyphInfo(double dx,
 Dart_Handle Paragraph::getWordBoundary(unsigned utf16Offset) {
   txt::Paragraph::Range<size_t> point =
       m_paragraph_->GetWordBoundary(utf16Offset);
-  std::vector<size_t> result = {point.start, point.end};
-  return tonic::DartConverter<decltype(result)>::ToDart(result);
+  tonic::Int32List result = Dart_NewTypedData(Dart_TypedData_kInt32, 2);
+  result[0] = point.start;
+  result[1] = point.end;
+  return result;
 }
 
 Dart_Handle Paragraph::getLineBoundary(unsigned utf16Offset) {

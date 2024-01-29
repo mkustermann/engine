@@ -3202,12 +3202,12 @@ base class _NativeParagraph extends NativeFieldWrapperClass1 implements Paragrap
 
   @override
   TextPosition getPositionForOffset(Offset offset) {
-    final List<int> encoded = _getPositionForOffset(offset.dx, offset.dy);
+    final Int32List encoded = _getPositionForOffset(offset.dx, offset.dy);
     return TextPosition(offset: encoded[0], affinity: TextAffinity.values[encoded[1]]);
   }
 
   @Native<Handle Function(Pointer<Void>, Double, Double)>(symbol: 'Paragraph::getPositionForOffset')
-  external List<int> _getPositionForOffset(double dx, double dy);
+  external Int32List _getPositionForOffset(double dx, double dy);
 
   @override
   GlyphInfo? getGlyphInfoAt(int codeUnitOffset) => _getGlyphInfoAt(codeUnitOffset, GlyphInfo._);
@@ -3228,12 +3228,12 @@ base class _NativeParagraph extends NativeFieldWrapperClass1 implements Paragrap
       case TextAffinity.downstream:
         characterPosition = position.offset;
     }
-    final List<int> boundary = _getWordBoundary(characterPosition);
+    final Int32List boundary = _getWordBoundary(characterPosition);
     return TextRange(start: boundary[0], end: boundary[1]);
   }
 
   @Native<Handle Function(Pointer<Void>, Uint32)>(symbol: 'Paragraph::getWordBoundary')
-  external List<int> _getWordBoundary(int offset);
+  external Int32List _getWordBoundary(int offset);
 
   @override
   TextRange getLineBoundary(TextPosition position) {
